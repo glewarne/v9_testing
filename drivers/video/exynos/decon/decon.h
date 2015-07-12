@@ -132,6 +132,32 @@ extern int decon_log_level;
 			pr_info(pr_fmt(fmt), ##__VA_ARGS__);			\
 	} while (0)
 
+/* declare these structs if decon event logging is disabled */
+#ifndef CONFIG_DECON_EVENT_LOG
+struct esd_protect {
+	u32 pcd_irq;
+	u32 err_irq;
+	u32 disp_det_irq;
+	u32 pcd_gpio;
+	u32 disp_det_gpio;
+	struct workqueue_struct *esd_wq;
+	struct work_struct esd_work;
+	u32	queuework_pending;
+};
+
+struct disp_ss_size_info {
+	u32 w_in;
+	u32 h_in;
+	u32 w_out;
+	u32 h_out;
+};
+
+struct disp_ss_size_err_info {
+	ktime_t time;
+	struct disp_ss_size_info info;
+};
+#endif
+
 /*
  * DECON_STATE_ON : disp power on, decon/dsim clock on & lcd on
  * DECON_STATE_LPD_ENT_REQ : disp power on, decon/dsim clock on, lcd on & request for LPD
